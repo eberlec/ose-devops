@@ -90,4 +90,59 @@ objects:
     type: ClusterIP
   status:
     loadBalancer: {}
-    
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: allianzdemo
+    name: allianzdemo
+  spec:
+    replicas: 1
+    selector:
+      app: allianzdemo
+      deploymentconfig: allianzdemo
+    strategy:
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: allianzdemo
+          deploymentconfig: allianzdemo
+      spec:
+        containers:
+        - image: devops/allianzdemo
+          imagePullPolicy: Always
+          name: allianzdemo
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - allianzdemo
+        from:
+          kind: ImageStreamTag
+          name: allianzdemo:latest
+      type: ImageChange
+  status: {}

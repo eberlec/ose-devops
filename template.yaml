@@ -25,12 +25,6 @@ objects:
       sourceSecret:
         name: "basicsecret"
       type: Git
-    strategy:
-      dockerStrategy:
-        from:
-          kind: ImageStreamTag
-          name: webserver30-tomcat8-openshift:latest
-      type: Docker
     triggers:
     - github:
         secret: zDD5Sx_mQQVF-UdkDJyL

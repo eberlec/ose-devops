@@ -5,6 +5,19 @@ metadata:
   name: devopstemplate
 objects:
 - apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: allianzdemo
+    name: webserver30-tomcat8-openshift
+  spec:
+    dockerImageRepository: registry.access.redhat.com/jboss-webserver-3/webserver30-tomcat8-openshift
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
   kind: BuildConfig
   metadata:
     annotations:
@@ -25,6 +38,12 @@ objects:
       sourceSecret:
         name: basicsecret
       type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: webserver30-tomcat8-openshift:latest
+      type: Docker
     triggers:
     - github:
         secret: SsM258HEQF0QFr0qFOMD

@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: devopstemplate
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: allianzdemo
+    name: allianzdemo
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: allianzdemo:latest
+    resources: {}
+    source:
+      git:
+        uri: https://bitbucket.org/atosconsulting/allianzdemo
+      sourceSecret:
+        name: basicsecret
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: webserver30-tomcat8-openshift:latest
+      type: Docker
+    triggers:
+    - github:
+        secret: SsM258HEQF0QFr0qFOMD
+      type: GitHub
+    - generic:
+        secret: mP26mEf8duMC1uT12ytD
+      type: Generic
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0

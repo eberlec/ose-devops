@@ -5,62 +5,6 @@ metadata:
   name: toast
 objects:
 - apiVersion: v1
-  kind: DeploymentConfig
-  metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewApp
-    creationTimestamp: null
-    labels:
-      app: ose-devops
-    name: ose-devops
-  spec:
-    replicas: 1
-    selector:
-      app: ose-devops
-      deploymentconfig: ose-devops
-    strategy:
-      resources: {}
-      rollingParams:
-        intervalSeconds: 1
-        maxSurge: 25%
-        maxUnavailable: 25%
-        timeoutSeconds: 600
-        updatePeriodSeconds: 1
-      type: Rolling
-    template:
-      metadata:
-        annotations:
-          openshift.io/generated-by: OpenShiftNewApp
-        creationTimestamp: null
-        labels:
-          app: ose-devops
-          deploymentconfig: ose-devops
-      spec:
-        containers:
-        - image: 172.30.84.246:5000/toast/ose-devops@sha256:05d54e517e1f533db268c04f67dad99d805c08d9235fa1a82c4ace9b741fa5d5
-          imagePullPolicy: Always
-          name: ose-devops
-          ports:
-          - containerPort: 8080
-            protocol: TCP
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-        dnsPolicy: ClusterFirst
-        restartPolicy: Always
-        securityContext: {}
-        terminationGracePeriodSeconds: 30
-    triggers:
-    - type: ConfigChange
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - ose-devops
-        from:
-          kind: ImageStreamTag
-          name: ose-devops:latest
-      type: ImageChange
-  status: {}
-- apiVersion: v1
   kind: BuildConfig
   metadata:
     annotations:
@@ -77,7 +21,7 @@ objects:
     resources: {}
     source:
       git:
-        uri: https://eberlec@bitbucket.org/atosconsulting/allianzdemo.git
+        uri: https://bitbucket.org/atosconsulting/allianzdemo
       sourceSecret:
         name: "basicsecret"
       type: Git
@@ -99,25 +43,3 @@ objects:
       type: ImageChange
   status:
     lastVersion: 0
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewApp
-    creationTimestamp: null
-    labels:
-      app: ose-devops
-    name: ose-devops
-  spec:
-    ports:
-    - name: 8080-tcp
-      port: 8080
-      protocol: TCP
-      targetPort: 8080
-    selector:
-      app: ose-devops
-      deploymentconfig: ose-devops
-    sessionAffinity: None
-    type: ClusterIP
-  status:
-    loadBalancer: {}

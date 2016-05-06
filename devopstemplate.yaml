@@ -18,6 +18,18 @@ objects:
   status:
     dockerImageRepository: ""
 - apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: allianzdemo
+    name: allianzdemo
+  spec: {}
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
   kind: BuildConfig
   metadata:
     annotations:

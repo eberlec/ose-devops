@@ -52,6 +52,7 @@ objects:
       type: Git
     strategy:
       dockerStrategy:
+        noCache: true
         from:
           kind: ImageStreamTag
           name: webserver30-tomcat8-openshift:latest
